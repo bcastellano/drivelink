@@ -1,0 +1,17 @@
+{
+    "name": "bcastellano/drive-link",
+    "type": "project",
+    "description": "App to open and manage url files in google drive",
+    "version": "1.0.0-dev",
+    "keywords": ["google drive", "php", "silex"],
+    "license": "MIT",
+    "authors": [{ "name": "Blas Castellano Moreno", "email": "b.castellano.moreno@gmail.com", "homepage": "http://bcastellano.es" }],
+    "require": {
+        "php": ">=5.5",
+        "silex/silex": "~1.3",
+        "google/apiclient": "1.*"
+    },
+    "autoload": {
+        "psr-4": { "DriveLink\\": "src/" }
+    }
+}
