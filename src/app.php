@@ -4,6 +4,7 @@ namespace DriveLink;
 
 use DriveLink\Security\Authentication\DriveProvider;
 use DriveLink\Security\Firewall\DriveListener;
+use DriveLink\Security\Logout\DriveLogoutHandler;
 use DriveLink\Security\User\DriveUserProvider;
 use Silex\Application;
 use Silex\Provider\SecurityServiceProvider;
@@ -61,6 +62,18 @@ $app['security.authentication_listener.factory.drive'] = $app->protect(function 
 
     // define the entry point that starts the authentication
     $app['security.entry_point.'.$name.'.drive'] = $app['security.entry_point.form._proto']($name, $options);
+
+    // extend default logout to add custom logout handler to stack
+    $app->extend('security.authentication_listener.logout._proto', function ($closure, $app) {
+        return function ($name, $options) use ($closure, $app) {
+            $c = $closure($name, $options);
+            $listener = $c($app);
+
+            $listener->addHandler(new DriveLogoutHandler($app['google.client']));
+
+            return $listener;
+        };
+    });
 
     return array(
         // the authentication provider id
