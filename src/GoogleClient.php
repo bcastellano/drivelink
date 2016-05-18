@@ -17,31 +17,31 @@ class GoogleClient
         $this->client->setApplicationName('DriveLink');
         $this->client->setScopes([
             \Google_Service_Drive::DRIVE_READONLY,
-            'https://www.googleapis.com/auth/drive.install'
+            'https://www.googleapis.com/auth/drive.install',
+            'https://www.googleapis.com/auth/userinfo.email'
         ]);
         $this->client->setClientId($configuration['clientId']);
         $this->client->setClientSecret($configuration['clientSecret']);
         $this->client->setRedirectUri($configuration['callbackUrl']);
 
-        if ($token = $session->get('token')) {
-            $this->client->setAccessToken($token);
+        if ($token = $session->get('_security_default')) {
+            $token = unserialize($token);
+            $this->client->setAccessToken(json_encode($token->getAccessToken()));
         }
     }
 
-    public function init($app)
+    public function getAuthUrl()
     {
-        $authUrl = $this->client->createAuthUrl();
-
-        return $app->redirect($authUrl);
+        return $this->client->createAuthUrl();
     }
 
     public function authenticate($authCode)
     {
         $accessToken = $this->client->authenticate($authCode);
 
-        $this->session->set('token', $accessToken);
-
         $this->client->setAccessToken($accessToken);
+
+        return $accessToken;
     }
 
     public function getClient()

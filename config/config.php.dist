@@ -4,7 +4,13 @@
  * Configuration array data
  */
 return [
-    'clientId' => '',
-    'clientSecret' => '',
-    'callbackUrl' => '',
+    'debug' => false,
+    'locale' => 'en',
+    'parameters' => [
+        'google-auth' => [
+            'clientId' => '',
+            'clientSecret' => '',
+            'callbackUrl' => 'http://localhost:8080/auth/callback'
+        ]
+    ]
 ];
