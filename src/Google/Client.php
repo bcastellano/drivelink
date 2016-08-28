@@ -1,13 +1,20 @@
 <?php
 
-namespace DriveLink;
+namespace DriveLink\Google;
 
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
-class GoogleClient
+class Client
 {
-    private $client;
-    private $session;
+    /**
+     * @var \Google_Client
+     */
+    protected $client;
+
+    /**
+     * @var SessionInterface
+     */
+    protected $session;
 
     public function __construct(SessionInterface $session, array $configuration)
     {

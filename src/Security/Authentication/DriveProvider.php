@@ -2,7 +2,7 @@
 
 namespace DriveLink\Security\Authentication;
 
-use DriveLink\GoogleClient;
+use DriveLink\Google\Client;
 use Symfony\Component\Security\Core\Authentication\Provider\AuthenticationProviderInterface;
 use Symfony\Component\Security\Core\Exception\BadCredentialsException;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
@@ -14,7 +14,7 @@ use Symfony\Component\Security\Core\User\UserProviderInterface;
  */
 class DriveProvider implements AuthenticationProviderInterface
 {
-    public function __construct(GoogleClient $googleClient, UserProviderInterface $userProvider)
+    public function __construct(Client $googleClient, UserProviderInterface $userProvider)
     {
         $this->googleClient = $googleClient;
         $this->userProvider = $userProvider;

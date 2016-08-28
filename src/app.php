@@ -2,6 +2,8 @@
 
 namespace DriveLink;
 
+use DriveLink\Google\Client;
+use DriveLink\Google\Service\Drive;
 use DriveLink\Security\Authentication\DriveProvider;
 use DriveLink\Security\Firewall\DriveListener;
 use DriveLink\Security\User\DriveUserProvider;
@@ -76,14 +78,14 @@ $app['security.authentication_listener.factory.drive'] = $app->protect(function 
  * Service to connect google services
  */
 $app['google.client'] = $app->share(function () use ($app) {
-    return new GoogleClient($app['session'], $app['parameters']['google-auth']);
+    return new Client($app['session'], $app['parameters']['google-auth']);
 });
 
 /**
  * Service to manage google drive
  */
 $app['google.drive'] = $app->share(function () use ($app) {
-    return new GoogleDrive($app['google.client']);
+    return new Drive($app['google.client']);
 });
 
 return $app;

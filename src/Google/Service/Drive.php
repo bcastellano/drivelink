@@ -1,10 +1,17 @@
 <?php
 
-namespace DriveLink;
+namespace DriveLink\Google\Service;
 
-class GoogleDrive
+use DriveLink\Google\Client;
+
+class Drive
 {
-    public function __construct(GoogleClient $googleClient)
+    /**
+     * @var \Google_Service_Drive
+     */
+    protected $drive;
+
+    public function __construct(Client $googleClient)
     {
         $this->googleClient = $googleClient;
 

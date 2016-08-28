@@ -2,7 +2,7 @@
 
 namespace DriveLink\Security\Firewall;
 
-use DriveLink\GoogleClient;
+use DriveLink\Google\Client;
 use DriveLink\Security\Authentication\DriveUserToken;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
@@ -11,7 +11,6 @@ use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Core\Authentication\AuthenticationManagerInterface;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\Security\Http\HttpUtils;
-use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Listener que comprueba si ha de usar nuestro Authentication provider para CokeId
@@ -27,7 +26,7 @@ class DriveListener implements ListenerInterface
     public function __construct(
         TokenStorageInterface $tokenStorage,
         AuthenticationManagerInterface $authManager,
-        GoogleClient $googleClient,
+        Client $googleClient,
         HttpUtils $httpUtils,
         array $options
     ) {
