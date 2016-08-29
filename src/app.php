@@ -4,6 +4,7 @@ namespace DriveLink;
 
 use DriveLink\Google\Client;
 use DriveLink\Google\Service\Drive;
+use DriveLink\Link\LinkReader;
 use DriveLink\Security\Authentication\DriveProvider;
 use DriveLink\Security\Firewall\DriveListener;
 use DriveLink\Security\User\DriveUserProvider;
@@ -86,6 +87,13 @@ $app['google.client'] = $app->share(function () use ($app) {
  */
 $app['google.drive'] = $app->share(function () use ($app) {
     return new Drive($app['google.client']);
+});
+
+/**
+ * Service to read files with url data
+ */
+$app['link.reader'] = $app->share(function () use ($app) {
+    return new LinkReader();
 });
 
 return $app;

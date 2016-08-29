@@ -32,24 +32,24 @@ $app->get('/', function () use ($app) {
  */
 $app->get('/open/{ids}', function ($ids) use ($app) {
     $fileId = explode(',', $ids)[0];
-    echo 'open: ' . $fileId;
 
+    // get file data from google drive
     $meta = $app['google.drive']->getDrive()->files->get($fileId);
     $contents = $app['google.drive']->getDrive()->files->get($fileId, ['alt' => 'media']);
 
-    if ($meta['fileExtension'] == 'webloc') {
-        // is .webloc
-        $xml = simplexml_load_string($contents);
+    // read url from file
+    $url = $app['link.reader']->getUrlFromFile($meta, $contents);
 
-        $url = (string)$xml->dict->string;
-    } else {
-        $matches = [];
-        // is .url
-        preg_match('/URL=([^\n]*)/mi', $contents, $matches);
-
-        $url = $matches[1];
+    if (null == $url) {
+        $url = '/error';
     }
 
     return $app->redirect($url);
+});
 
+/**
+ * Error page
+ */
+$app->get('/error', function () use ($app) {
+    return '<p>Url not valid or not found</p>';
 });
