@@ -11,6 +11,7 @@ use DriveLink\Security\User\DriveUserProvider;
 use Silex\Application;
 use Silex\Provider\SecurityServiceProvider;
 use Silex\Provider\SessionServiceProvider;
+use Symfony\Component\HttpFoundation\Session\Storage\Handler\MemcachedSessionHandler;
 
 /**
  * Start app and load config file
@@ -21,6 +22,12 @@ $app = new Application(include __DIR__.'/../config/config.php');
  * Register session service
  */
 $app->register(new SessionServiceProvider());
+$app['session.storage.memcached'] = $app->share(function () {
+    return new \Memcached();
+});
+$app['session.storage.handler'] = $app->share(function ($app) {
+    return new MemcachedSessionHandler($app['session.storage.memcached'], ['prefix' => 'drv:lnk:']);
+});
 
 /**
  * Security service
